@@ -65,8 +65,6 @@ ROADS = [
       [-34.1560, 18.4320],
       [-34.1870, 18.4355],
       [-34.2250, 18.4530],
-      [-34.3000, 18.4800],
-      [-34.350, 18.484],
     ],
   },
   {
@@ -74,13 +72,10 @@ ROADS = [
     "label": "M65 – Deep South",
     "color": "#8e44ad", "weight": 5, "dash": None,
     "title": "M65 — Plateau Road / Red Hill Road / Slangkop Road / Kommetjie Road",
-    "area": "Cape Point, Scarborough, Ocean View, Kommetjie, Masipumelele",
+    "area": "Scarborough, Ocean View, Kommetjie, Masipumelele",
     "closed": "06h15–06h45 (varies)",
     "opens": "14h00",
     "wp": [
-      [-34.350, 18.484],       # Cape Point
-      [-34.333, 18.452],       # Plateau Rd heading west
-      [-34.312, 18.418],       # Red Hill Rd
       [-34.290, 18.384],       # Near Scarborough
       [-34.272, 18.370],       # Scarborough coast
       [-34.250, 18.350],       # Misty Cliffs
