@@ -70,7 +70,7 @@ hr { border:none; border-top:1px solid #eee; margin:7px 0; }
   <div class="li"><div class="lb" style="background:#2980b9"></div>CBD streets</div>
   <div class="li"><div class="ld" style="border-color:#27ae60"></div>Ou Kaapse Weg M64 (OPEN)</div>
   <hr/>
-  <div class="li"><div class="ld" style="border-color:#1a73e8"></div><strong>My Route</strong> (fastest, 12:15)</div>
+  <div class="li" id="toggle-myroute" style="cursor:pointer;"><div class="ld" style="border-color:#1a73e8"></div><strong>My Route</strong> (fastest, 12:15)</div>
   <hr/>
   <div class="note">Tap any road for closure times.<br>Data: official PDF, 1 Mar 2026.</div>
 </div>
@@ -100,17 +100,20 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19
 }).addTo(map);
 
+let myRouteLayer = null;
+
 function renderRoads(data) {
   data.roads.forEach(r => {
     const opts = { color: r.color, weight: r.weight, opacity: 0.88 };
     if (r.dash) opts.dashArray = r.dash;
-    L.polyline(r.coords, opts).addTo(map).bindPopup(
+    const line = L.polyline(r.coords, opts).addTo(map).bindPopup(
       `<div class="pt">${r.title}</div>
        <div class="pa">${r.area}</div>
        <div class="pr"><span>Closed</span><span class="cl">${r.closed}</span></div>
        <div class="pr"><span>Reopens</span><span class="op">${r.opens}</span></div>`,
       {maxWidth: 320}
     );
+    if (r.id === 'my_route') myRouteLayer = line;
   });
 
   data.markers.forEach(m => {
@@ -127,6 +130,18 @@ fetch('roads_data.json')
   .then(r => r.json())
   .then(renderRoads)
   .catch(err => console.error('Failed to load road data:', err));
+
+document.getElementById('toggle-myroute').addEventListener('click', () => {
+  if (!myRouteLayer) return;
+  const el = document.getElementById('toggle-myroute');
+  if (map.hasLayer(myRouteLayer)) {
+    map.removeLayer(myRouteLayer);
+    el.style.opacity = '0.35';
+  } else {
+    map.addLayer(myRouteLayer);
+    el.style.opacity = '1';
+  }
+});
 </script>
 </body>
 </html>
