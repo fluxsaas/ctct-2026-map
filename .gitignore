@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.png
+.claude/
+.playwright-mcp/
+road_coords.json
