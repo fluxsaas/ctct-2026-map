@@ -29,7 +29,7 @@ markers_data = [
     {"pos": [-33.9264, 18.4242], "emoji": "\U0001f3c1", "title": "Start - Grand Parade, Cape Town CBD", "sub": "First wave: 06h16 | ~30,000 riders"},
     {"pos": [-33.8958, 18.4278], "emoji": "\U0001f3c6", "title": "Finish - Helen Suzman Boulevard, Green Point", "sub": "Closed Saturday 14h00 to Sunday 21h00"},
     {"pos": [-34.0680, 18.3530], "emoji": "\u26a0\ufe0f", "title": "Chapman's Peak Drive", "sub": "Closed Saturday 18h00 to Sunday 18h00"},
-    {"pos": [-34.3560, 18.4980], "emoji": "\U0001f4cd", "title": "Cape Point - turnaround", "sub": "Closed 06h00 to 14h00"},
+    {"pos": [-34.350, 18.484], "emoji": "\U0001f4cd", "title": "Cape Point - turnaround", "sub": "Closed 06h00 to 14h00"},
     {"pos": [-34.0450, 18.3910], "emoji": "\U0001f7e2", "title": "Ou Kaapse Weg (M64)", "sub": "OPEN all day - best bypass"},
     {"pos": [-34.1290, 18.4460], "emoji": "\U0001f4cd", "title": "Fish Hoek", "sub": "M4 closed 05h45 to 12h50"},
     {"pos": [-34.0600, 18.4720], "emoji": "\U0001f4cd", "title": "Muizenberg", "sub": "M3 + M4 junction - closed from 06h00"},
@@ -107,7 +107,7 @@ hr { border:none; border-top:1px solid #eee; margin:7px 0; }
   <h3>Cape Town Cycle Tour 2026</h3>
   <div class="sub">Sun 8 March | Road geometry from OSRM</div>
   <div class="li"><div class="lb" style="background:#e74c3c"></div>M3 / N2 outbound</div>
-  <div class="li"><div class="lb" style="background:#c0392b;opacity:.6"></div>M3 inbound - 42km</div>
+  <div class="li"><div class="ld" style="border-color:#c0392b;opacity:.6"></div>M3 inbound - 42km</div>
   <div class="li"><div class="lb" style="background:#e67e22"></div>M4 - False Bay coast</div>
   <div class="li"><div class="lb" style="background:#8e44ad"></div>M65 - Deep South</div>
   <div class="li"><div class="lb" style="background:#e8a000"></div>Chapman's Peak / Noordhoek M6</div>
