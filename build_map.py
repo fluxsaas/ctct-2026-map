@@ -38,13 +38,13 @@ markers_data = [
 ]
 
 cutoffs_data = [
-    {"pos": [-34.0450, 18.4700], "num": 1, "name": "M3/Steenberg", "time": "10h15"},
-    {"pos": [-34.1560, 18.4320], "num": 2, "name": "Glencairn Express Way", "time": "11h15"},
-    {"pos": [-34.2600, 18.3600], "num": 3, "name": "Perdekloof", "time": "13h00"},
-    {"pos": [-34.1440, 18.3285], "num": 4, "name": "Noordhoek", "time": "14h00"},
-    {"pos": [-34.0400, 18.3468], "num": 5, "name": "Hout Bay Main Road", "time": "15h00"},
-    {"pos": [-33.9580, 18.3770], "num": 6, "name": "Bakoven", "time": "16h00"},
-    {"pos": [-33.8958, 18.4278], "num": 7, "name": "Finish", "time": "17h00"},
+    {"pos": [-34.04538, 18.46978], "num": 1, "name": "M3/Steenberg", "time": "10h15"},
+    {"pos": [-34.15597, 18.43553], "num": 2, "name": "Glencairn Express Way", "time": "11h15"},
+    {"pos": [-34.205371, 18.405661], "num": 3, "name": "Perdekloof", "time": "13h00"},
+    {"pos": [-34.11995, 18.39069], "num": 4, "name": "Noordhoek", "time": "14h00"},
+    {"pos": [-34.04000, 18.34680], "num": 5, "name": "Hout Bay Main Road", "time": "15h00"},
+    {"pos": [-33.95503, 18.37779], "num": 6, "name": "Bakoven", "time": "16h00"},
+    {"pos": [-33.90015, 18.42626], "num": 7, "name": "Finish", "time": "17h00"},
 ]
 
 data = {"roads": roads_data, "markers": markers_data, "cutoffs": cutoffs_data}
@@ -126,7 +126,14 @@ hr { border:none; border-top:1px solid #eee; margin:7px 0; }
   <div class="li"><div class="lb" style="background:#c0392b"></div>Helen Suzman - FINISH</div>
   <div class="li"><div class="lb" style="background:#2980b9"></div>CBD streets</div>
   <div class="li"><div class="ld" style="border-color:#27ae60"></div>Ou Kaapse Weg M64 (OPEN)</div>
-  <div class="li"><div class="cutoff-icon" style="width:18px;height:18px;font-size:9px;flex-shrink:0;">1</div>Cut-off points</div>
+  <div class="li" style="font-weight:600;margin-top:4px;">Cut-offs</div>
+  <div class="li co" data-n="1" style="cursor:pointer;"><div class="cutoff-icon" style="width:18px;height:18px;font-size:9px;flex-shrink:0;">1</div>M3/Steenberg <span style="color:#c0392b;margin-left:auto;">10h15</span></div>
+  <div class="li co" data-n="2" style="cursor:pointer;"><div class="cutoff-icon" style="width:18px;height:18px;font-size:9px;flex-shrink:0;">2</div>Glencairn <span style="color:#c0392b;margin-left:auto;">11h15</span></div>
+  <div class="li co" data-n="3" style="cursor:pointer;"><div class="cutoff-icon" style="width:18px;height:18px;font-size:9px;flex-shrink:0;">3</div>Perdekloof <span style="color:#c0392b;margin-left:auto;">13h00</span></div>
+  <div class="li co" data-n="4" style="cursor:pointer;"><div class="cutoff-icon" style="width:18px;height:18px;font-size:9px;flex-shrink:0;">4</div>Noordhoek <span style="color:#c0392b;margin-left:auto;">14h00</span></div>
+  <div class="li co" data-n="5" style="cursor:pointer;"><div class="cutoff-icon" style="width:18px;height:18px;font-size:9px;flex-shrink:0;">5</div>Hout Bay <span style="color:#c0392b;margin-left:auto;">15h00</span></div>
+  <div class="li co" data-n="6" style="cursor:pointer;"><div class="cutoff-icon" style="width:18px;height:18px;font-size:9px;flex-shrink:0;">6</div>Bakoven <span style="color:#c0392b;margin-left:auto;">16h00</span></div>
+  <div class="li co" data-n="7" style="cursor:pointer;"><div class="cutoff-icon" style="width:18px;height:18px;font-size:9px;flex-shrink:0;">7</div>Finish <span style="color:#c0392b;margin-left:auto;">17h00</span></div>
   <hr/>
   <div class="li" id="toggle-myroute" style="cursor:pointer;"><div class="ld" style="border-color:#1a73e8"></div><strong>My Route</strong> (fastest, 12:15)</div>
   <hr/>
@@ -159,6 +166,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 let myRouteLayer = null;
+const cutoffMarkers = {};
 
 function renderRoads(data) {
   data.roads.forEach(r => {
@@ -183,11 +191,12 @@ function renderRoads(data) {
   });
 
   (data.cutoffs||[]).forEach(c => {
-    L.marker(c.pos, { icon: L.divIcon({
+    const m = L.marker(c.pos, { icon: L.divIcon({
       iconSize:[22,22], iconAnchor:[11,11], popupAnchor:[0,-14], className:'',
       html:`<div class="cutoff-icon">${c.num}</div>`
     })}).addTo(map)
       .bindPopup(`<div class="pt">Cut-off ${c.num}: ${c.name}</div><div style="font-size:12px;color:#c0392b;font-weight:600;margin-top:3px;">Must pass by ${c.time}</div>`);
+    cutoffMarkers[c.num] = m;
   });
 }
 
@@ -196,6 +205,14 @@ fetch('roads_data.json')
   .then(r => r.json())
   .then(renderRoads)
   .catch(err => console.error('Failed to load road data:', err));
+
+document.querySelectorAll('.co').forEach(el => {
+  el.addEventListener('click', () => {
+    const n = parseInt(el.dataset.n);
+    const m = cutoffMarkers[n];
+    if (m) { map.setView(m.getLatLng(), 14); m.openPopup(); }
+  });
+});
 
 document.getElementById('toggle-myroute').addEventListener('click', () => {
   if (!myRouteLayer) return;
