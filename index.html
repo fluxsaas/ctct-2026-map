@@ -47,6 +47,7 @@ hr { border:none; border-top:1px solid #eee; margin:7px 0; }
 .itin-loc { flex:1; }
 .itin-note { color:#999; font-size:10px; }
 .itin-stop { background:#f0f7ff; border-radius:6px; margin:3px -4px; padding:3px 4px; }
+.cutoff-icon { background:#c0392b;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,0.3);border:2px solid #fff; }
 .leaflet-popup-content-wrapper { border-radius:10px; }
 .pt { font-weight:700; font-size:13px; margin-bottom:4px; }
 .pa { font-size:11px; color:#888; margin-bottom:5px; }
@@ -69,6 +70,7 @@ hr { border:none; border-top:1px solid #eee; margin:7px 0; }
   <div class="li"><div class="lb" style="background:#c0392b"></div>Helen Suzman - FINISH</div>
   <div class="li"><div class="lb" style="background:#2980b9"></div>CBD streets</div>
   <div class="li"><div class="ld" style="border-color:#27ae60"></div>Ou Kaapse Weg M64 (OPEN)</div>
+  <div class="li"><div class="cutoff-icon" style="width:18px;height:18px;font-size:9px;flex-shrink:0;">1</div>Cut-off points</div>
   <hr/>
   <div class="li" id="toggle-myroute" style="cursor:pointer;"><div class="ld" style="border-color:#1a73e8"></div><strong>My Route</strong> (fastest, 12:15)</div>
   <hr/>
@@ -122,6 +124,14 @@ function renderRoads(data) {
       html:`<div style="background:#fff;border:2.5px solid #444;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 6px rgba(0,0,0,0.22);">${m.emoji}</div>`
     })}).addTo(map)
       .bindPopup(`<div class="pt">${m.title}</div><div style="font-size:11px;color:#666;margin-top:3px;">${m.sub}</div>`);
+  });
+
+  (data.cutoffs||[]).forEach(c => {
+    L.marker(c.pos, { icon: L.divIcon({
+      iconSize:[22,22], iconAnchor:[11,11], popupAnchor:[0,-14], className:'',
+      html:`<div class="cutoff-icon">${c.num}</div>`
+    })}).addTo(map)
+      .bindPopup(`<div class="pt">Cut-off ${c.num}: ${c.name}</div><div style="font-size:12px;color:#c0392b;font-weight:600;margin-top:3px;">Must pass by ${c.time}</div>`);
   });
 }
 
